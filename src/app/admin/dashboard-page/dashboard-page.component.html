@@ -1,0 +1,37 @@
+<div *ngIf="posts.length; else loading">
+  <!--Показывает прогрузку постов-->
+  <div class="form-control">
+    <input type="text" placeholder="Найти пост" [(ngModel)]="searchStr">
+  </div>
+  <table>
+    <thead>
+    <tr>
+      <th>#</th>
+      <th>Автор</th>
+      <th>Название</th>
+      <th>Дата</th>
+      <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let post of posts | searchPosts: searchStr let idx = index">
+      <td>{{idx + 1}}</td>
+      <td>{{post.author}}</td>
+      <td>{{post.title}}</td>
+      <td>{{post.date|date:'medium':null: 'ru'}}</td>
+      <td>
+        <button class="btn btn-link open" [routerLink]="['/admin','post', post.id, 'edit']">Открыть</button>
+        <a (click)="remove(post.id)">Удалить</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #loading>
+  <h3><strong>Идет загрузка...</strong></h3>
+  <svg class="spinner" width="65px" height="65px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+    <circle class="path" fill="none" stroke-width="6" stroke-linecap="round" cx="33" cy="33" r="30"></circle>
+  </svg>
+</ng-template>
+
